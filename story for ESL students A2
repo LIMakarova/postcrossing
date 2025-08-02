@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maria's Postcrossing Adventure - A2 Level</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+            color: white;
+            padding: 30px;
+            border-radius: 15px 15px 0 0;
+            margin: -20px -20px 30px -20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '✉️';
+            position: absolute;
+            top: -10px;
+            right: 30px;
+            font-size: 60px;
+            opacity: 0.3;
+            transform: rotate(15deg);
+        }
+        
+        .header::after {
+            content: '🌍';
+            position: absolute;
+            bottom: -10px;
+            left: 30px;
+            font-size: 50px;
+            opacity: 0.3;
+            transform: rotate(-10deg);
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        
+        .reading-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 30px 0;
+            border-left: 5px solid #FF6B6B;
+            position: relative;
+        }
+        
+        .reading-section::before {
+            content: '📖';
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 30px;
+            opacity: 0.6;
+        }
+        
+        h2 {
+            color: #FF6B6B;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .story-text {
+            font-size: 1.1em;
+            line-height: 1.8;
+            text-align: justify;
+        }
+        
+        .story-text strong {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        
+        .exercises-section {
+            margin-top: 40px;
+        }
+        
+        .exercise {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            margin: 25px 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .exercise:hover {
+            border-color: #4ECDC4;
+            box-shadow: 0 5px 15px rgba(78, 205, 196, 0.2);
+        }
+        
+        .exercise-header {
+            background: linear-gradient(45deg, #4ECDC4, #44A08D);
+            color: white;
+            padding: 15px 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .exercise-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .check-button {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid white;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .check-button:hover {
+            background: white;
+            color: #4ECDC4;
+        }
+        
+        .exercise-content {
+            padding: 20px;
+        }
+        
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .vocab-item {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 3px solid #FF6B6B;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .vocab-input {
+            width: 30px;
+            height: 30px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .vocab-input:focus {
+            border-color: #4ECDC4;
+            outline: none;
+            box-shadow: 0 0 5px rgba(78, 205, 196, 0.3);
+        }
+        
+        .true-false-grid {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .tf-item {
+            display: contents;
+        }
+        
+        .tf-statement {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 3px solid #4ECDC4;
+        }
+        
+        .tf-answer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+        }
+        
+        .tf-input {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .tf-input:focus {
+            border-color: #4ECDC4;
+            outline: none;
+            box-shadow: 0 0 5px rgba(78, 205, 196, 0.3);
+        }
+        
+        .fill-blank {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border-left: 3px solid #2196f3;
+        }
+        
+        .blank-input {
+            display: inline-block;
+            width: 120px;
+            height: 30px;
+            border: none;
+            border-bottom: 2px solid #2196f3;
+            margin: 0 5px;
+            text-align: center;
+            background: transparent;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .blank-input:focus {
+            outline: none;
+            border-bottom-color: #FF6B6B;
+            background: rgba(255, 107, 107, 0.1);
+        }
+        
+        .multiple-choice {
+            background: #f0f8ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border-left: 3px solid #4169e1;
+        }
+        
+        .choice-button {
+            background: #e9ecef;
+            border: 2px solid #dee2e6;
+            padding: 8px 16px;
+            margin: 5px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .choice-button:hover {
+            background: #4ECDC4;
+            color: white;
+            border-color: #4ECDC4;
+        }
+        
+        .choice-button.selected {
+            background: #4ECDC4;
+            color: white;
+            border-color: #4ECDC4;
+        }
+        
+        .discussion-questions {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .discussion-questions h4 {
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .discussion-questions ol {
+            padding-left: 20px;
+        }
+        
+        .discussion-questions li {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+        
+        .score-display {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 10px;
+            font-weight: bold;
+            display: none;
+        }
+        
+        .correct {
+            background-color: #d4edda !important;
+            border-color: #28a745 !important;
+            color: #155724 !important;
+        }
+        
+        .incorrect {
+            background-color: #f8d7da !important;
+            border-color: #dc3545 !important;
+            color: #721c24 !important;
+        }
+        
+        .icon {
+            font-size: 1.2em;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .vocab-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .true-false-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .blank-input {
+                width: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📮 Maria's Postcrossing Adventure</h1>
+            <p class="subtitle">Interactive English Reading & Grammar • Level A2</p>
+        </div>
+        
+        <div class="reading-section">
+            <h2><span class="icon">📖</span>Reading Text</h2>
+            <div class="story-text">
+                <p>Maria <strong>discovered</strong> postcrossing last year when her friend told her about it. She <strong>had never heard</strong> of this project before, but it sounded very interesting.</p>
+                
+                <p>First, Maria <strong>registered</strong> on the postcrossing website. She <strong>filled</strong> in her address and <strong>read</strong> all the instructions carefully. Then she <strong>requested</strong> her first address – it was for a person in Japan!</p>
+                
+                <p>Maria <strong>went</strong> to the local shop and <strong>bought</strong> a beautiful postcard with a picture of her city. She <strong>wrote</strong> a friendly message: "Hello from Germany! I hope you like this postcard. This is my first postcrossing experience!" She <strong>didn't forget</strong> to write the Postcard ID: JP-54321.</p>
+                
+                <p>The next day, Maria <strong>walked</strong> to the post office and <strong>sent</strong> the postcard. She <strong>felt</strong> very excited about her new hobby.</p>
+                
+                <p>Three weeks later, something amazing <strong>happened</strong>. Maria <strong>opened</strong> her mailbox and <strong>found</strong> a colorful postcard from Brazil! She <strong>had never received</strong> mail from South America before. The postcard <strong>showed</strong> a beautiful beach, and the sender <strong>wrote</strong> about the weather and local food.</p>
+                
+                <p>Since then, Maria <strong>has sent</strong> postcards to fifteen different countries. She <strong>has received</strong> postcards from places she <strong>had never heard</strong> of before – like Tasmania, Estonia, and Madagascar. Her postcrossing collection <strong>has grown</strong> to twenty-three postcards from around the world.</p>
+                
+                <p>Last month, Maria <strong>got</strong> her most special postcard. It <strong>came</strong> from a small village in Nepal. The sender <strong>drew</strong> a picture of mountains and <strong>wrote</strong> about life in the Himalayas. Maria <strong>has kept</strong> this postcard on her desk because it's so unique.</p>
+                
+                <p><strong>Have you ever tried</strong> postcrossing? Maria <strong>has made</strong> many friends through this project, and she <strong>has learned</strong> about different cultures. She <strong>plans</strong> to continue this hobby for many years!</p>
+            </div>
+        </div>
+        
+        <div class="exercises-section">
+            <h2><span class="icon">📝</span>Interactive Exercises</h2>
+            
+            <div class="exercise">
+                <div class="exercise-header">
+                    <div class="exercise-title">
+                        <span class="icon">🔤</span>Exercise 1: Vocabulary Match
+                    </div>
+                    <button class="check-button" onclick="checkExercise1()">Check Answers</button>
+                </div>
+                <div class="exercise-content">
+                    <p><strong>Match the words with their definitions by typing the correct letter:</strong></p>
+                    <div class="vocab-grid">
+                        <div class="vocab-item">1. discovered <input type="text" class="vocab-input" id="vocab1" maxlength="1"></div>
+                        <div class="vocab-item">a) a unique code for each postcard</div>
+                        <div class="vocab-item">2. registered <input type="text" class="vocab-input" id="vocab2" maxlength="1"></div>
+                        <div class="vocab-item">b) found out about something new</div>
+                        <div class="vocab-item">3. instructions <input type="text" class="vocab-input" id="vocab3" maxlength="1"></div>
+                        <div class="vocab-item">c) signed up on a website</div>
+                        <div class="vocab-item">4. Postcard ID <input type="text" class="vocab-input" id="vocab4" maxlength="1"></div>
+                        <div class="vocab-item">d) became bigger</div>
+                        <div class="vocab-item">5. exciting <input type="text" class="vocab-input" id="vocab5" maxlength="1"></div>
+                        <div class="vocab-item">e) directions on how to do something</div>
+                        <div class="vocab-item">6. collection <input type="text" class="vocab-input" id="vocab6" maxlength="1"></div>
+                        <div class="vocab-item">f) very interesting and fun</div>
+                        <div class="vocab-item">7. unique <input type="text" class="vocab-input" id="vocab7" maxlength="1"></div>
+                        <div class="vocab-item">g) a group of similar things you keep</div>
+                        <div class="vocab-item">8. has grown <input type="text" class="vocab-input" id="vocab8" maxlength="1"></div>
+                        <div class="vocab-item">h) special, one of a kind</div>
+                    </div>
+                    <div class="score-display" id="score1"></div>
+                </div>
+            </div>
+            
+            <div class="exercise">
+                <div class="exercise-header">
+                    <div class="exercise-title">
+                        <span class="icon">✅</span>Exercise 2: True or False
+                    </div>
+                    <button class="check-button" onclick="checkExercise2()">Check Answers</button>
+                </div>
+                <div class="exercise-content">
+                    <p><strong>Read the statements and write T (True) or F (False):</strong></p>
+                    <div class="true-false-grid">
+                        <div class="tf-statement">1. Maria learned about postcrossing from the internet.</div>
+                        <div class="tf-answer"><input type="text" class="tf-input" id="tf1" maxlength="1"></div>
+                        <div class="tf-statement">2. Her first postcard went to Japan.</div>
+                        <div class="tf-answer"><input type="text" class="tf-input" id="tf2" maxlength="1"></div>
+                        <div class="tf-statement">3. She forgot to write the Postcard ID on her first postcard.</div>
+                        <div class="tf-answer"><input type="text" class="tf-input" id="tf3" maxlength="1"></div>
+                        <div class="tf-statement">4. The postcard from Brazil arrived after two weeks.</div>
+                        <div class="tf-answer"><input type="text" class="tf-input" id="tf4" maxlength="1"></div>
+                        <div class="tf-statement">5. Maria has sent postcards to 15 countries.</div>
+                        <div class="tf-answer"><input type="text" class="tf-input" id="tf5" maxlength="1"></div>
+                        <div class="tf-statement">6. She has received 23 postcards so far.</div>
+                        <div class="tf-answer"><input type="text" class="tf-input" id="tf6" maxlength="1"></div>
+                        <div class="tf-statement">7. The postcard from Nepal showed mountains.</div>
+                        <div class="tf-answer"><input type="text" class="tf-input" id="tf7" maxlength="1"></div>
+                        <div class="tf-statement">8. Maria wants to stop postcrossing soon.</div>
+                        <div class="tf-answer"><input type="text" class="tf-input" id="tf8" maxlength="1"></div>
+                    </div>
+                    <div class="score-display" id="score2"></div>
+                </div>
+            </div>
+            
+            <div class="exercise">
+                <div class="exercise-header">
+                    <div class="exercise-title">
+                        <span class="icon">⏰</span>Exercise 3: Complete with Past Simple
+                    </div>
+                    <button class="check-button" onclick="checkExercise3()">Check Answers</button>
+                </div>
+                <div class="exercise-content">
+                    <p><strong>Fill in the gaps with the correct Past Simple form:</strong></p>
+                    <div class="fill-blank">1. Maria <input type="text" class="blank-input" id="ps1"> (discover) postcrossing last year.</div>
+                    <div class="fill-blank">2. She <input type="text" class="blank-input" id="ps2"> (go) to the shop and <input type="text" class="blank-input" id="ps3"> (buy) a postcard.</div>
+                    <div class="fill-blank">3. Maria <input type="text" class="blank-input" id="ps4"> (write) a friendly message on the postcard.</div>
+                    <div class="fill-blank">4. She <input type="text" class="blank-input" id="ps5"> (walk) to the post office and <input type="text" class="blank-input" id="ps6"> (send) it.</div>
+                    <div class="fill-blank">5. Three weeks later, she <input type="text" class="blank-input" id="ps7"> (open) her mailbox.</div>
+                    <div class="fill-blank">6. Maria <input type="text" class="blank-input" id="ps8"> (find) a colorful postcard from Brazil.</div>
+                    <div class="fill-blank">7. The sender <input type="text" class="blank-input" id="ps9"> (draw) a picture of mountains.</div>
+                    <div class="fill-blank">8. Last month, she <input type="text" class="blank-input" id="ps10"> (get) a special postcard from Nepal.</div>
+                    <div class="fill-blank">9. At first, Maria <input type="text" class="blank-input" id="ps11"> (not know) how postcrossing worked.</div>
+                    <div class="fill-blank">10. She <input type="text" class="blank-input" id="ps12"> (not expect) to receive her first postcard so quickly.</div>
+                    <div class="score-display" id="score3"></div>
+                </div>
+            </div>
+            
+            <div class="exercise">
+                <div class="exercise-header">
+                    <div class="exercise-title">
+                        <span class="icon">✨</span>Exercise 4: Complete with Present Perfect
+                    </div>
+                    <button class="check-button" onclick="checkExercise4()">Check Answers</button>
+                </div>
+                <div class="exercise-content">
+                    <p><strong>Fill in the gaps with the correct Present Perfect form:</strong></p>
+                    <div class="fill-blank">1. Maria <input type="text" class="blank-input" id="pp1"> <input type="text" class="blank-input" id="pp2"> (send) postcards to fifteen countries.</div>
+                    <div class="fill-blank">2. She <input type="text" class="blank-input" id="pp3"> <input type="text" class="blank-input" id="pp4"> (receive) postcards from many places.</div>
+                    <div class="fill-blank">3. Her collection <input type="text" class="blank-input" id="pp5"> <input type="text" class="blank-input" id="pp6"> (grow) to twenty-three postcards.</div>
+                    <div class="fill-blank">4. Maria <input type="text" class="blank-input" id="pp7"> <input type="text" class="blank-input" id="pp8"> (keep) the Nepal postcard on her desk.</div>
+                    <div class="fill-blank">5. She <input type="text" class="blank-input" id="pp9"> <input type="text" class="blank-input" id="pp10"> (make) many friends through postcrossing.</div>
+                    <div class="fill-blank">6. <input type="text" class="blank-input" id="pp11"> you ever <input type="text" class="blank-input" id="pp12"> (try) postcrossing?</div>
+                    <div class="fill-blank">7. Maria <input type="text" class="blank-input" id="pp13"> <input type="text" class="blank-input" id="pp14"> (not lose) any of her postcards yet.</div>
+                    <div class="fill-blank">8. She <input type="text" class="blank-input" id="pp15"> <input type="text" class="blank-input" id="pp16"> (not stop) enjoying this hobby.</div>
+                    <div class="score-display" id="score4"></div>
+                </div>
+            </div>
+            
+            <div class="exercise">
+                <div class="exercise-header">
+                    <div class="exercise-title">
+                        <span class="icon">⚖️</span>Exercise 5: Past Simple vs Present Perfect
+                    </div>
+                    <button class="check-button" onclick="checkExercise5()">Check Answers</button>
+                </div>
+                <div class="exercise-content">
+                    <p><strong>Choose the correct tense by clicking on your choice:</strong></p>
+                    <div class="multiple-choice">
+                        1. Maria <span class="choice-button" onclick="selectChoice(this, 'discovered')" data-question="5_1">discovered</span> / <span class="choice-button" onclick="selectChoice(this, 'has discovered')" data-question="5_1">has discovered</span> postcrossing last year.
+                    </div>
+                    <div class="multiple-choice">
+                        2. She <span class="choice-button" onclick="selectChoice(this, 'sent')" data-question="5_2">sent</span> / <span class="choice-button" onclick="selectChoice(this, 'has sent')" data-question="5_2">has sent</span> her first postcard to Japan.
+                    </div>
+                    <div class="multiple-choice">
+                        3. Since then, she <span class="choice-button" onclick="selectChoice(this, 'received')" data-question="5_3">received</span> / <span class="choice-button" onclick="selectChoice(this, 'has received')" data-question="5_3">has received</span> many postcards.
+                    </div>
+                    <div class="multiple-choice">
+                        4. Last month, Maria <span class="choice-button" onclick="selectChoice(this, 'got')" data-question="5_4">got</span> / <span class="choice-button" onclick="selectChoice(this, 'has got')" data-question="5_4">has got</span> a postcard from Nepal.
+                    </div>
+                    <div class="multiple-choice">
+                        5. She <span class="choice-button" onclick="selectChoice(this, 'never heard')" data-question="5_5">never heard</span> / <span class="choice-button" onclick="selectChoice(this, 'has never heard')" data-question="5_5">has never heard</span> of Tasmania before postcrossing.
+                    </div>
+                    <div class="score-display" id="score5"></div>
+                </div>
+            </div>
+            
+            <div class="discussion-questions">
+                <h4><span class="icon">💭</span>Discussion Questions</h4>
+                <p><strong>Discuss these questions with a partner or write your answers:</strong></p>
+                <ol>
+                    <li>Would you like to try postcrossing? Why or why not?</li>
+                    <li>What kind of postcard would you send from your country?</li>
+                    <li>Which country would you most like to receive a postcard from?</li>
+                    <li>Do you prefer email or traditional mail? Explain your answer.</li>
+                    <li>What other hobbies help people make international friends?</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Exercise answers
+        const answers = {
+            exercise1: ['b', 'c', 'e', 'a', 'f', 'g', 'h', 'd'],
+            exercise2: ['F', 'T', 'F', 'F', 'T', 'T', 'T', 'F'],
+            exercise3: ['discovered', 'went', 'bought', 'wrote', 'walked', 'sent', 'opened', 'found', 'drew', 'got', 'didn\'t know', 'didn\'t expect'],
+            exercise4: ['has', 'sent', 'has', 'received', 'has', 'grown', 'has', 'kept', 'has', 'made', 'Have', 'tried', 'hasn\'t', 'lost', 'hasn\'t', 'stopped'],
+            exercise5: ['discovered', 'sent', 'has received', 'got', 'has never heard']
+        };
+
+        // Exercise 5 selections
+        let exercise5Selections = {};
+
+        function selectChoice(element, choice) {
+            const question = element.dataset.question;
+            const questionElements = document.querySelectorAll(`[data-question="${question}"]`);
+            
+            // Remove selected class from all choices for this question
+            questionElements.forEach(el => el.classList.remove('selected'));
+            
+            // Add selected class to clicked choice
+            element.classList.add('selected');
+            
+            // Store selection
+            exercise5Selections[question] = choice;
+        }
+
+        function checkExercise1() {
+            let correct = 0;
+            for (let i = 1; i <= 8; i++) {
+                const input = document.getElementById(`vocab${i}`);
+                const userAnswer = input.value.toLowerCase().trim();
+                const correctAnswer = answers.exercise1[i-1].toLowerCase();
+                
+                if (userAnswer === correctAnswer) {
+                    input.classList.add('correct');
+                    input.classList.remove('incorrect');
+                    correct++;
+                } else {
+                    input.classList.add('incorrect');
+                    input.classList.remove('correct');
+                }
+            }
+            showScore('score1', correct, 8);
+        }
+
+        function checkExercise2() {
+            let correct = 0;
+            for (let i = 1; i <= 8; i++) {
+                const input = document.getElementById(`tf${i}`);
+                const userAnswer = input.value.toUpperCase().trim();
+                const correctAnswer = answers.exercise2[i-1];
+                
+                if (userAnswer === correctAnswer) {
+                    input.classList.add('correct');
+                    input.classList.remove('incorrect');
+                    correct++;
+                } else {
+                    input.classList.add('incorrect');
+                    input.classList.remove('correct');
+                }
+            }
+            showScore('score2', correct, 8);
+        }
+
+        function checkExercise3() {
+            let correct = 0;
+            const inputIds = ['ps1', 'ps2', 'ps3', 'ps4', 'ps5', 'ps6', 'ps7', 'ps8', 'ps9', 'ps10', 'ps11', 'ps12'];
+            
+            for (let i = 0; i < inputIds.length; i++) {
+                const input = document.getElementById(inputIds[i]);
+                const userAnswer = input.value.toLowerCase().trim();
+                const correctAnswer = answers.exercise3[i].toLowerCase();
+                
+                if (userAnswer === correctAnswer) {
+                    input.classList.add('correct');
+                    input.classList.remove('incorrect');
+                    correct++;
+                } else {
+                    input.classList.add('incorrect');
+                    input.classList.remove('correct');
+                }
+            }
+            showScore('score3', correct, inputIds.length);
+        }
+
+        function checkExercise4() {
+            let correct = 0;
+            const inputIds = ['pp1', 'pp2', 'pp3', 'pp4', 'pp5', 'pp6', 'pp7', 'pp8', 'pp9', 'pp10', 'pp11', 'pp12', 'pp13', 'pp14', 'pp15', 'pp16'];
+            
+            for (let i = 0; i < inputIds.length; i++) {
+                const input = document.getElementById(inputIds[i]);
+                const userAnswer = input.value.toLowerCase().trim();
+                const correctAnswer = answers.exercise4[i].toLowerCase();
+                
+                if (userAnswer === correctAnswer) {
+                    input.classList.add('correct');
+                    input.classList.remove('incorrect');
+                    correct++;
+                } else {
+                    input.classList.add('incorrect');
+                    input.classList.remove('correct');
+                }
+            }
+            showScore('score4', correct, inputIds.length);
+        }
+
+        function checkExercise5() {
+            let correct = 0;
+            const questions = ['5_1', '5_2', '5_3', '5_4', '5_5'];
+            
+            for (let i = 0; i < questions.length; i++) {
+                const question = questions[i];
+                const userAnswer = exercise5Selections[question];
+                const correctAnswer = answers.exercise5[i];
+                const questionElements = document.querySelectorAll(`[data-question="${question}"]`);
+                
+                if (userAnswer === correctAnswer) {
+                    questionElements.forEach(el => {
+                        if (el.textContent.trim() === correctAnswer) {
+                            el.classList.add('correct');
+                            el.classList.remove('incorrect');
+                        }
+                    });
+                    correct++;
+                } else {
+                    questionElements.forEach(el => {
+                        if (el.classList.contains('selected')) {
+                            el.classList.add('incorrect');
+                            el.classList.remove('correct');
+                        }
+                        if (el.textContent.trim() === correctAnswer) {
+                            el.style.border = '2px solid #28a745';
+                            el.style.fontWeight = 'bold';
+                        }
+                    });
+                }
+            }
+            showScore('score5', correct, questions.length);
+        }
+
+        function showScore(scoreId, correct, total) {
+            const scoreElement = document.getElementById(scoreId);
+            const percentage = Math.round((correct / total) * 100);
+            let message = '';
+            let emoji = '';
+            
+            if (percentage >= 90) {
+                message = 'Excellent work!';
+                emoji = '🌟';
+            } else if (percentage >= 80) {
+                message = 'Great job!';
+                emoji = '🎉';
+            } else if (percentage >= 70) {
+                message = 'Good effort!';
+                emoji = '👍';
+            } else if (percentage >= 60) {
+                message = 'Keep practicing!';
+                emoji = '📚';
+            } else {
+                message = 'Try again!';
+                emoji = '💪';
+            }
+            
+            scoreElement.innerHTML = `${emoji} Score: ${correct}/${total} (${percentage}%) - ${message}`;
+            scoreElement.style.display = 'block';
+        }
+
+        // Auto-capitalize T/F inputs
+        document.querySelectorAll('.tf-input').forEach(input => {
+            input.addEventListener('input', function() {
+                this.value = this.value.toUpperCase();
+            });
+        });
+
+        // Auto-capitalize vocab inputs
+        document.querySelectorAll('.vocab-input').forEach(input => {
+            input.addEventListener('input', function() {
+                this.value = this.value.toLowerCase();
+            });
+        });
+
+        // Clear styling when user starts typing again
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.classList.remove('correct', 'incorrect');
+            });
+        });
+    </script>
+</body>
+</html>
